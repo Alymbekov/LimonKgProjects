@@ -107,7 +107,7 @@ LOGOUT_REDIRECT_URL = 'index'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
