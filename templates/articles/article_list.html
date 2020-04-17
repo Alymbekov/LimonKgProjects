@@ -16,9 +16,19 @@
     <div class="card-footer text-center text-muted">
         {% if user.is_authenticated %}
         {% if request.user == article.author %}
-        <a href="{% url 'article_edit' article.pk %}"> Edit </a> | <a href="{% url 'article_delete' article.pk %}"> Delete </a>
+        <a href="{% url 'article_edit' article.pk %}"> Edit </a> | <a href="{% url 'article_delete' article.pk %}"> Delete </a> |
         {% endif %}
+        {% else %}
         {% endif %}
+        <a href="{{article.get_absolute_url}}">Перейти...</a>
+    </div>
+    <div class="card-footer">
+        {% for comment in article.comments.all %}
+        <p>
+            <span class="font-weight-bold">{{comment.author}}</span>
+            {{comment}}
+        </p>
+        {% endfor %}
     </div>
 </div>
 <br/>

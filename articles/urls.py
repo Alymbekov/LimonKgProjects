@@ -5,6 +5,8 @@ from .views import (
     ArticleDetailView,
     ArticleDeleteView,
     ArticleCreateView,
+    # AddComment,
+    # add_comment_to_article
 )
 
 
@@ -19,4 +21,7 @@ urlpatterns = [
     path('<int:pk>/delete/', ArticleDeleteView.as_view(), name='article_delete'),
     #create post
     path('article/create/', ArticleCreateView.as_view(), name='article_new'),
+    #add comment to article
 ]
+
+# http://localhost:8000/articles/comment/1/
