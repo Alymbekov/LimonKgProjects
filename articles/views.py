@@ -10,14 +10,29 @@ from django.views.generic import ListView, DetailView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
-
+from .mixins import DispatchFuncMixin
+from django.db.models import Q
 
 
 
 class ArticlePageView(ListView):
     """Вывод всех объектов """
-    model = Article
     template_name = 'articles/article_list.html'
+    paginate_by = 2
+    def get_queryset(self):
+        query_result = self.request.GET.get('search_title')
+        if query_result:
+            queryset = Article.objects.filter(
+                Q(title__icontains=query_result) |
+                Q(description__icontains=query_result)
+                 
+            )
+        else:
+            queryset = Article.objects.all()
+        return queryset
+    
+
+
 
 
 class ArticleDetailView(FormView, DetailView):
@@ -36,7 +51,7 @@ class ArticleDetailView(FormView, DetailView):
         return super().form_valid(form)
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, DispatchFuncMixin, UpdateView):
     """Обновление объекта """
     model = Article
     fields = ('title', 'description')
@@ -49,27 +64,14 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data() #{"object": "object_detail"}
         context['some_lists'] = some_list
         return context
-    
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        if obj.author != self.request.user:
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
 
 
-
-class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DispatchFuncMixin, DeleteView):
     """Удаление объекта """
     model = Article
     template_name = 'articles/article_delete.html'
     success_url = reverse_lazy('article_list')
     login_url = 'login'
-
-    def dispatch(self, request, *args, **kwargs):
-        obj = self.get_object()
-        if obj.author != self.request.user:
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):

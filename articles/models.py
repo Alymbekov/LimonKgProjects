@@ -9,6 +9,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='article-photos/', default='media/default.jpg')
     author = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE,
     )
@@ -36,5 +37,8 @@ class Comment(models.Model):
     
     def get_absolute_url(self):
         return reverse('article_list')
+    
+    class Meta:
+        ordering = ('author', )
 
     

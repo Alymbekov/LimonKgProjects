@@ -10,28 +10,24 @@
         <span class="font-weight-bold">{{ article.title }}</span>
         <span class="text-muted">{{ article.author }} | {{ article.date }}</span>
     </div>
+    <img src="{{article.image.url}}" height="200" width=200 alt="">
     <div class="card-body">
         {{article.description}}
     </div>
     <div class="card-footer text-center text-muted">
         {% if user.is_authenticated %}
         {% if request.user == article.author %}
-        <a href="{% url 'article_edit' article.pk %}"> Edit </a> | <a href="{% url 'article_delete' article.pk %}"> Delete </a> |
+        <a href="{% url 'article_edit' article.pk %}"> Edit </a> | <a href="{% url 'article_delete' article.pk %}">
+            Delete </a> |
         {% endif %}
         {% else %}
         {% endif %}
         <a href="{{article.get_absolute_url}}">Перейти...</a>
     </div>
-    <div class="card-footer">
-        {% for comment in article.comments.all %}
-        <p>
-            <span class="font-weight-bold">{{comment.author}}</span>
-            {{comment}}
-        </p>
-        {% endfor %}
-    </div>
+
 </div>
-<br/>
+<br />
 {% endfor %}
+{% include 'includes/pagination.html' %}
 
 {% endblock content %}

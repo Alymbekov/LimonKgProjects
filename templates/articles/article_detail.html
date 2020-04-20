@@ -9,6 +9,7 @@
     <p> {{object.description}} </p>
 </div>
 
+{% if user.is_authenticated %}
 <p>
     <a href="{% url 'article_edit' object.pk %}"> Edit </a>
     <a href="{% url 'article_delete' object.pk %}"> Delete </a>
@@ -16,7 +17,6 @@
 
 <p> Back to articles page <a href="{% url 'article_list' %}">Go to All Articles </a></p>
 
-{% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
     <!-- Comment <input type="text" name="comment"> -->
@@ -24,5 +24,14 @@
     <button class="btn btn-success"> Add comment </button>
 </form>
 {% endif %}
+
+<div class="card-footer">
+    {% for comment in object.comments.all %}
+    <p>
+        <span class="font-weight-bold">{{comment.author}}</span>
+        {{comment}}
+    </p>
+    {% endfor %}
+</div>
 
 {% endblock content %}
