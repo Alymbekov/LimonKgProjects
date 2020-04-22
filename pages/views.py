@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from articles.models import Article
 
-
-class IndexPageView(TemplateView):
-    template_name = 'index.html'
+class IndexPageView(ListView):
+    template_name = 'index1.html'
+    model = Article

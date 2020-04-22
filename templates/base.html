@@ -1,3 +1,4 @@
+{% load category_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,10 +66,31 @@
           </div>
           {% endif %}
         </li>
+
+
+
+        <!-- category -->
+
+
+        <!-- endcategory -->
+
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
       </ul>
+      <form action="" method="GET">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1" style="color:white;">Категории </label>
+          {% get_all_categories as categories  %}
+          <select multiple class="form-control" name="category" id="exampleFormControlSelect1">
+            <option> Выберите категорию </option>
+            {% for category in categories %}
+            <option value="{{category.id}}">{{category.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit"> Фильтр </button>
+      </form>
       <form class="form-inline my-2 my-lg-0" method="GET">
         <input class="form-control mr-sm-2" type="search" name="search_title" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -79,7 +101,7 @@
     {% block content %}
     У страницы нет данных
     {% endblock %}
-    
+
   </div>
 </body>
 

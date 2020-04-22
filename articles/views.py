@@ -1,4 +1,4 @@
-from .models import Article
+from .models import Article, Category
 from .forms import CommentForm
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
@@ -14,19 +14,31 @@ from .mixins import DispatchFuncMixin
 from django.db.models import Q
 
 
+class CategoryList(ListView):
+    template_name = "includes/categories.html"
+    model = Category
+
 
 class ArticlePageView(ListView):
     """Вывод всех объектов """
-    template_name = 'articles/article_list.html'
-    paginate_by = 2
+    # template_name = 'articles/article_list.html'
+    template_name = 'index1.html'
+    paginate_by = 10
+    context_object_name = 'posts'
     def get_queryset(self):
         query_result = self.request.GET.get('search_title')
+        filter_category = self.request.GET.getlist('category')
         if query_result:
             queryset = Article.objects.filter(
                 Q(title__icontains=query_result) |
                 Q(description__icontains=query_result)
                  
             )
+        if filter_category:
+            queryset = Article.objects.filter(
+                Q(category__in=filter_category)
+            )
+        
         else:
             queryset = Article.objects.all()
         return queryset
@@ -54,7 +66,7 @@ class ArticleDetailView(FormView, DetailView):
 class ArticleUpdateView(LoginRequiredMixin, DispatchFuncMixin, UpdateView):
     """Обновление объекта """
     model = Article
-    fields = ('title', 'description')
+    fields = ('title', 'description', 'image', 'category')
     template_name = 'articles/article_edit.html'
     login_url = 'login'
 
@@ -78,7 +90,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     """Создание объекта """
     model = Article
     template_name = 'articles/article_create.html'
-    fields = ('title', 'description')
+    fields = ('title', 'description', 'category', 'image')
     login_url = 'login'
 
     def form_valid(self, form):
