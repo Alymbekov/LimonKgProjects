@@ -5,12 +5,14 @@ from .views import (
     ArticleDetailView,
     ArticleDeleteView,
     ArticleCreateView,
+    CategoryList,
     # AddComment,
     # add_comment_to_article
 )
 
 
 urlpatterns = [
+    path('categories/', CategoryList.as_view(), name='categories'),
     #list of posts 
     path('', ArticlePageView.as_view(), name='article_list'),
     #update posts

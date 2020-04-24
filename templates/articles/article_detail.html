@@ -1,37 +1,365 @@
-{% extends 'base.html' %}
+{% extends 'new_base.html' %}  
+{% load static %}  
 {% load crispy_forms_tags %}
-
 {% block content %}
+<!-- Start banner Area -->
+<section class="banner-area relative">
+    <div class="overlay overlay-bg"></div>
+    <div class="container box_1170">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Blog Post Details
+                </h1>
+                <p class="text-white link-nav"><a href="index.html">Home </a> <span class="lnr lnr-arrow-right"></span>
+                    <a href="#"> Blog</a> <span class="lnr lnr-arrow-right"></span>
+                    <a href="blog-details.html"> Blog Details</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
 
-<div class="article-entry">
-    <h2>{{object.title}}</h2>
-    <p> by {{object.author}} | {{object.date}}</p>
-    <p> {{object.description}} </p>
-</div>
+<!-- Blog Area -->
+<section class="blog_area section-gap single-post-area">
+    <div class="container box_1170">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="main_blog_details">
+                    <img class="img-fluid" src="{{post.get_absolute_image_url}}" alt="">
+                    <h4>{{post.title}}</h4>
+                    <div class="user_details">
+                        <div class="float-left">
+                            {% if request.user.pk == post.author.pk %}
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'article_edit' object.pk %}"> Edit </a>
+                            <a href="{% url 'article_delete' object.pk %}"> Delete </a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="float-right">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5>{{post.author.username}}</h5>
+                                    <p>{{post.date}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <img src="{{post.author.profiles.get_absolute_avatar_url}}" height="50" width="50" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>{{post.description}}</p>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not
+                            understand
+                            why you should have to spend money on boot camp when you can get the MCSE study
+                            materials
+                            yourself at a fraction of the camp price. However, who has the willpower to actually
+                            sit
+                            through a self-imposed MCSE training.</p>
+                    </blockquote>
+                    <div class="news_d_footer">
+                        <a href="#"><i class="lnr lnr lnr-heart"></i>Lily and 4 people like this</a>
+                        <a class="justify-content-center ml-auto" href="#"><i class="lnr lnr lnr-bubble"></i>{{post.comments.count}} Comments</a>
+                        <div class="news_socail ml-auto">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="#"><i class="fa fa-rss"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                            <div class="thumb">
+                                <a href="#"><img class="img-fluid" src="{% static 'img/blog/prev.jpg' %}" alt=""></a>
+                            </div>
+                            <div class="arrow">
+                                <a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
+                            </div>
+                            <div class="detials">
+                                <p>Prev Post</p>
+                                <a href="#">
+                                    <h4>A Discount Toner</h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                            <div class="detials">
+                                <p>Next Post</p>
+                                <a href="#">
+                                    <h4>Cartridge Is Better</h4>
+                                </a>
+                            </div>
+                            <div class="arrow">
+                                <a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
+                            </div>
+                            <div class="thumb">
+                                <a href="#"><img class="img-fluid" src="{% static 'img/blog/next.jpg' %}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comments-area">
+                    <h4>{{post.comments.count}} Comments</h4>
+                    {% for post_comment in post.comments.all %}
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="{{post_comment.author.profiles.get_absolute_avatar_url}}" height="50"  width="50" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">{{post_comment.author}}</a></h5>
+                                    <p class="date"> {{post_comment.date}} </p>
+                                    <p class="comment">
+                                        {{post_comment.comment}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="reply-btn">
+                                <a href="" class="btn-reply text-uppercase">reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- <div class="comment-list left-padding">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="{% static 'img/blog/c2.jpg' %}" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">Elsie Cunningham</a></h5>
+                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                    <p class="comment">
+                                        Never say goodbye till the end comes!
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="reply-btn">
+                                <a href="" class="btn-reply text-uppercase">reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-list left-padding">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="{% static 'img/blog/c3.jpg' %}" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">Annie Stephens</a></h5>
+                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                    <p class="comment">
+                                        Never say goodbye till the end comes!
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="reply-btn">
+                                <a href="" class="btn-reply text-uppercase">reply</a>
+                            </div>
+                        </div>
+                    </div> -->
+                   
 
-{% if user.is_authenticated %}
-<p>
-    <a href="{% url 'article_edit' object.pk %}"> Edit </a>
-    <a href="{% url 'article_delete' object.pk %}"> Delete </a>
-</p>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <h4>Leave a Reply</h4>
+                    <form  method="POST">
+                            {% csrf_token %}
+                        <div class="form-group">
+                            <!-- <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege"
+                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea> -->
+                                {{form|crispy}}
+                        </div>
+                        <button class="primary-btn submit_btn text-uppercase" type="submit">Send Comment</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="comment-form">
+                    <h4>If you want add comment - <br>you must first login</h4>
+                </div>
 
-<p> Back to articles page <a href="{% url 'article_list' %}">Go to All Articles </a></p>
+                {% endif %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <!-- Comment <input type="text" name="comment"> -->
-    {{form|crispy}}
-    <button class="btn btn-success"> Add comment </button>
-</form>
-{% endif %}
+            </div>
 
-<div class="card-footer">
-    {% for comment in object.comments.all %}
-    <p>
-        <span class="font-weight-bold">{{comment.author}}</span>
-        {{comment}}
-    </p>
-    {% endfor %}
-</div>
+            <div class="col-lg-4 sidebar">
+                <div class="single-widget protfolio-widget">
+                    <img class="img-fluid" src="{% static 'img/blog/user2.png' %}" alt="">
+                    <a href="#">
+                        <h4>Peter Anderson</h4>
+                    </a>
+                    <p class="p-text">
+                        Boot camps have its supporters andit sdetractors. Some people do not understand why you should have to spend
+                        money on boot camp whenyou can get. Boot camps have itssuppor ters andits detractors.
+                    </p>
+                    <ul class="social-links">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                    </ul>
+                    <img src="{% static 'img/sign.png' %}" alt="">
+                </div>
+
+                <div class="single-widget popular-posts-widget">
+                    <div class="jq-tab-wrapper" id="horizontalTab">
+                        <div class="jq-tab-menu">
+                            <div class="jq-tab-title active" data-tab="1">Popular</div>
+                            <div class="jq-tab-title" data-tab="2">Latest</div>
+                        </div>
+                        <div class="jq-tab-content-wrapper">
+                            <div class="jq-tab-content active" data-tab="1">
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories1.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories2.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories3.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories4.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="jq-tab-content active" data-tab="2">
+
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories2.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories3.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories1.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                                <div class="single-popular-post d-flex flex-row">
+                                    <div class="popular-thumb">
+                                        <img class="img-fluid" src="{% static 'img/posts/carousel/stories4.jpg' %}" alt="">
+                                    </div>
+                                    <div class="popular-details">
+                                        <h6><a href="">2nd Gen Smoke Alarm <br>
+                                                get up from sleep</a></h6>
+                                        <p>September 14, 2018</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="single-widget category-widget">
+                    <h4 class="title">Post Categories</h4>
+                    <ul>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">International (56)</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">Tours and Travels (45)</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">Cooking Tips (23)</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">Life Style and Fashion (72)</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">Organic News (37)</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="justify-content-between align-items-center d-flex">
+                                <p><img src="{% static 'img/bullet.png' %}" alt="">Games and Sports (19)</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="single-widget tags-widget">
+                    <h4 class="title">Post Tags</h4>
+                    <ul>
+                        <li><a href="#">Lifestyle</a></li>
+                        <li><a href="#">Art</a></li>
+                        <li><a href="#">Adventure</a></li>
+                        <li><a href="#">Food</a></li>
+                        <li><a href="#">Techlology</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Architecture</a></li>
+                        <li><a href="#">Food</a></li>
+                        <li><a href="#">Technology</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Area -->
+
 
 {% endblock content %}

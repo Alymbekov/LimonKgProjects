@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from datetime import datetime
 from django.urls import reverse
 
 
@@ -9,6 +10,7 @@ from django.urls import reverse
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -19,6 +21,10 @@ class Category(models.Model):
         
 
 class Article(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
     title = models.CharField(max_length=255)
     description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
@@ -27,6 +33,8 @@ class Article(models.Model):
     author = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE,
     )
+    # updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=False)
 
     def __str__(self):
         return self.title
@@ -34,6 +42,10 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('article_detail', args=[str(self.id)])
     
+    @property
+    def get_absolute_image_url(self):
+        return f'{self.image.url}'
+
     class Meta:
         ordering =('-date', )
 
@@ -41,10 +53,11 @@ class Article(models.Model):
 class Comment(models.Model):
     """Комментарии"""
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="comments")
-    comment = models.CharField(max_length=255)
+    comment = models.TextField(max_length=255)
     author = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE
     )
+    date = models.DateTimeField(auto_now_add=datetime.now())
     
     def __str__(self):
         return self.comment[:50]

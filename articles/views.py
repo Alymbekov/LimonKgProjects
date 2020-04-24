@@ -15,8 +15,9 @@ from django.db.models import Q
 
 
 class CategoryList(ListView):
-    template_name = "includes/categories.html"
+    template_name = 'category.html'
     model = Category
+    context_object_name = 'categories'
 
 
 class ArticlePageView(ListView):
@@ -52,6 +53,7 @@ class ArticleDetailView(FormView, DetailView):
     model = Article
     form_class = CommentForm
     template_name = 'articles/article_detail.html'
+    context_object_name = 'post'
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy('article_detail', kwargs={'pk': self.get_object().pk})
     
