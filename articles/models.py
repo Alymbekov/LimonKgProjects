@@ -52,19 +52,19 @@ class Article(models.Model):
 
 class Comment(models.Model):
     """Комментарии"""
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="comments")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     comment = models.TextField(max_length=255)
     author = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE
     )
     date = models.DateTimeField(auto_now_add=datetime.now())
-    
+    reply = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, related_name='replies')    
     def __str__(self):
         return self.comment[:50]
     
     def get_absolute_url(self):
         return reverse('article_list')
-    
+     
     class Meta:
         ordering = ('author', )
 

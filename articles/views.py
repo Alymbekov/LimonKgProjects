@@ -1,4 +1,4 @@
-from .models import Article, Category
+from .models import Article, Category, Comment
 from .forms import CommentForm
 from users.models import CustomUser
 from django.contrib.auth import get_user_model
@@ -54,11 +54,22 @@ class ArticleDetailView(FormView, DetailView):
     form_class = CommentForm
     template_name = 'articles/article_detail.html'
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView,self).get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(article=self.get_object(), reply=None).order_by('-id')
+        return context
+
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy('article_detail', kwargs={'pk': self.get_object().pk})
     
     def form_valid(self, form):
         form = form.save(commit=False)
+        reply = self.request.POST.get('comment_id', None)
+        comment_qs = None
+        if reply:
+            comment_qs = Comment.objects.get(id=reply)
+        form.reply = comment_qs        
         form.article = self.get_object()
         form.author = self.request.user
         form.save()

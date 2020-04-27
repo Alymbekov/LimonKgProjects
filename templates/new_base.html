@@ -40,7 +40,9 @@
 
     {% endblock content %}
 
-    {% include 'includes/footer.html' %}
+	{% include 'includes/footer.html' %}
+	
+
 
     <script src=" {% static 'js/vendor/jquery-2.2.4.min.js' %}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -58,6 +60,16 @@
 	<script src=" {% static 'js/waypoints.min.js' %}"></script>
 	<script src=" {% static 'js/mail-script.js' %}"></script>
 	<script src=" {% static 'js/main.js' %}"></script>
+
+		<!-- btn reply func -->
+		<script>
+			$('.btn-reply').click(function(){
+				console.log("hello")
+			  $(this).parent().parent().next('.replied-comments').fadeToggle()
+			});
+			
+		  </script>
+		<!-- end btn reply -->
 </body>
 
 </html>
