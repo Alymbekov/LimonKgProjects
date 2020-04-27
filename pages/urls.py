@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import IndexPageView
+from .views import ContactPageView
 
 
 urlpatterns = [
-    path('', IndexPageView.as_view(), name='index'),
+    #страница контактов
+    path('contacts/', ContactPageView.as_view(), name='contacts'),
 ]
 #http://localhost:8000/

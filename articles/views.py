@@ -57,7 +57,7 @@ class ArticleDetailView(FormView, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView,self).get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(article=self.get_object(), reply=None).order_by('-id')
+        context['comments'] = Comment.objects.filter(article=self.get_object(), reply=None).order_by('-date')
         return context
 
     def get_success_url(self, *args, **kwargs):
@@ -111,34 +111,5 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     
-# class AddComment(View):
-#     """Комментарии"""
-    
-#     def post(self, request, pk):
-#         form = CommentForm(request.POST)
-#         article = Article.objects.get(id=pk)
-#         if form.is_valid():
-#             form = form.save(commit=False)
-#             form.author = request.user
-#             form.article = article
-#             form.save()
-#         else:
-#             return redirect(reverse_lazy('article_detail', kwargs={'pk': article.pk}))
-
-
-# def add_comment_to_article(request, pk):
-#     article = Article.objects.get(id=pk)
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.article = article
-#             comment.author = CustomUser.objects.get(pk=1)
-#             comment.save()
-#             return redirect(reverse_lazy('article_detail', kwargs={'pk': article.pk}))
-#     else:
-#         form = CommentForm()
-#     return render(request, 'articles/article_comment.html', {'form': form})
-
 
   
