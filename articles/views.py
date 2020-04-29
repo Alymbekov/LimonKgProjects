@@ -1,8 +1,9 @@
-from .models import Article, Category, Comment
+from .models import Article, Category, Comment, ArticleViews
 from .forms import CommentForm
 from users.models import CustomUser
+from django.utils import timezone
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic.base import View
@@ -24,7 +25,7 @@ class ArticlePageView(ListView):
     """Вывод всех объектов """
     # template_name = 'articles/article_list.html'
     template_name = 'index1.html'
-    paginate_by = 10
+    paginate_by = 2
     context_object_name = 'posts'
     def get_queryset(self):
         query_result = self.request.GET.get('search_title')
@@ -54,6 +55,24 @@ class ArticleDetailView(FormView, DetailView):
     form_class = CommentForm
     template_name = 'articles/article_detail.html'
     context_object_name = 'post'
+
+    def dispatch(self, request, *args, **kwargs):
+        article = get_object_or_404(Article, id=self.kwargs['pk'])
+        context = {}
+        obj, created = ArticleViews.objects.get_or_create(
+            defaults={
+                  'article': article,
+              },
+            article=article 
+        )
+        if created:
+            obj.views += 1
+            obj.save(update_fields=['views'])
+        else:
+            obj.views += 1
+            obj.save(update_fields=['views'])
+        return super(ArticleDetailView, self).dispatch(request, *args, **kwargs)
+        
 
     def get_context_data(self, **kwargs):
         context = super(ArticleDetailView,self).get_context_data(**kwargs)
@@ -112,4 +131,3 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     
 
-  

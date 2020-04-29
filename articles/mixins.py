@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+from .models import Article, ArticleViews
 
 class DispatchFuncMixin():
     def dispatch(self, request, *args, **kwargs):
@@ -5,3 +7,5 @@ class DispatchFuncMixin():
         if obj.author != self.request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
+
+

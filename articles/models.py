@@ -68,4 +68,13 @@ class Comment(models.Model):
     class Meta:
         ordering = ('author', )
 
+
+class ArticleViews(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='article_statistic')
+    date = models.DateTimeField(auto_now_add=datetime.now())
+    views = models.IntegerField('Views', default=0)
+
+    def __str__(self):
+        return self.article.title
+
     
