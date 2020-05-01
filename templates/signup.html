@@ -8,20 +8,18 @@
 <h3>Sign Up</h3>
 <form action="" method="POST">
     {% csrf_token %}
-    <div class="row">
-        <div class="col-6">
+    <div class="form-row mt-100 justify-content-center" >
+      <div class="form-group col-md-4 mb-0">
           {{ form.username|as_crispy_field }}
-        </div>
-        <div class="col-6">
           {{ form.email|as_crispy_field }}
-        </div>
-        <div class="col-6">
-            {{ form.age|as_crispy_field }}
-          </div>
+          {{ form.age|as_crispy_field }}
+          {{ form.password1|as_crispy_field }}
+          {{ form.password2|as_crispy_field }}
       </div>
-      {{ form.password1|as_crispy_field }}
-      {{ form.password2|as_crispy_field }}
-    <button type="submit" class="btn btn-success"> Sign up</button>
-</form>
+    </div>
+    <div class="row justify-content-center" >
+    <button type="submit" class="btn btn-success  col-md-3 mb-100"> Sign up</button>
+    </div>
 
+</form>
 {% endblock %}

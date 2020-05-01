@@ -5,6 +5,7 @@ from .views import (
     ArticleDetailView,
     ArticleDeleteView,
     ArticleCreateView,
+    ArticleSearchView,
     CategoryList,
     # AddComment,
     # add_comment_to_article
@@ -12,6 +13,7 @@ from .views import (
 
 
 urlpatterns = [
+    path('article/search/result/',ArticleSearchView.as_view(), name='article_list_result'),
     path('categories/', CategoryList.as_view(), name='categories'),
     #list of posts 
     path('', ArticlePageView.as_view(), name='article_list'),

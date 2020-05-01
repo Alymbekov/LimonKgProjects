@@ -21,13 +21,28 @@ class CategoryList(ListView):
     context_object_name = 'categories'
 
 
+class ArticleSearchView(ListView):
+    template_name = 'includes/article_search_result.html'
+    model = Article
+
+    def get_queryset(self):
+        query_result = self.request.GET.get('search_title')
+        filter_category = self.request.GET.getlist('category')
+        if query_result:
+            queryset = Article.objects.filter(
+                Q(title__icontains=query_result) |
+                Q(description__icontains=query_result)
+                )
+         
+
 class ArticlePageView(ListView):
     """Вывод всех объектов """
     # template_name = 'articles/article_list.html'
     template_name = 'index1.html'
-    paginate_by = 2
+    paginate_by = 10
     context_object_name = 'posts'
     def get_queryset(self):
+        queryset = Article.objects.all()
         query_result = self.request.GET.get('search_title')
         filter_category = self.request.GET.getlist('category')
         if query_result:
@@ -41,8 +56,6 @@ class ArticlePageView(ListView):
                 Q(category__in=filter_category)
             )
         
-        else:
-            queryset = Article.objects.all()
         return queryset
     
 

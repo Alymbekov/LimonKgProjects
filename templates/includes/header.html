@@ -27,6 +27,16 @@
 						<li class="menu-active"><a href="{% url 'article_list'  %}">Home</a></li>
 						<li><a href="{% url 'categories' %}">Category</a></li>
 						<li><a href="{% url 'contacts' %}">Contact</a></li>
+						{% if user.is_authenticated %}
+						  <li><a href="{% url 'logout' %}">Выйти</a></li>
+						  <li><a href="#">Перейти в Профиль</a></li>
+						  <li><a href="{% url 'password_change' %}">Поменять пароль</a></li>
+						  <li><a href="{% url 'password_reset' %}">Сбросить пароль</a></li>
+						  <li><a href="{% url 'article_new' %}">Создать статью</a></li>
+						{% else %}
+						<li><a href="{% url 'login' %}">Войти</a></li>
+						<li><a href="{% url 'signup' %}">Зарегистрироваться</a></li>
+						{% endif %}
 					</ul>
 				</nav>
 			</div>
@@ -34,8 +44,8 @@
 		
 		<div class="search_input" id="search_input_box">
 			<div class="container box_1170">
-				<form class="d-flex justify-content-between">
-					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+				<form class="d-flex justify-content-between" action="{% url 'article_list' %}" method="GET" >
+					<input type="text" class="form-control" name="search_title" id="search_input" placeholder="Search Here">
 					<button type="submit" class="btn"></button>
 					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 				</form>
