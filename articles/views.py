@@ -1,5 +1,5 @@
 from .models import Article, Category, Comment, ArticleViews
-from .forms import CommentForm
+from .forms import CommentForm, CustomCreateForm
 from users.models import CustomUser
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
 from .mixins import DispatchFuncMixin
 from django.db.models import Q
+
 
 
 class CategoryList(ListView):
@@ -134,8 +135,8 @@ class ArticleDeleteView(LoginRequiredMixin, DispatchFuncMixin, DeleteView):
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     """Создание объекта """
     model = Article
+    form_class = CustomCreateForm
     template_name = 'articles/article_create.html'
-    fields = ('title', 'description', 'category', 'image')
     login_url = 'login'
 
     def form_valid(self, form):

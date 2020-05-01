@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from datetime import datetime
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 
 
@@ -26,7 +27,7 @@ class Article(models.Model):
         ('published', 'Published'),
     )
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = HTMLField()
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='article-photos/', default='media/default.jpg')

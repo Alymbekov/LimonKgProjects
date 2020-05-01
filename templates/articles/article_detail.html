@@ -2,6 +2,7 @@
 {% load static %}  
 {% load crispy_forms_tags %}
 {% block content %}
+
 <!-- Start banner Area -->
 <section class="banner-area relative">
     <div class="overlay overlay-bg"></div>
@@ -49,7 +50,9 @@
                             </div>
                         </div>
                     </div>
-                    <p>{{post.description|slice:100}}{% if post.description|length > 100 %}...{% endif %}</p>
+                    <div id="preview-content">
+                    <p>{{post.description|safe}}</p>
+                </div>
                     <blockquote class="blockquote">
                         <p class="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not
                             understand

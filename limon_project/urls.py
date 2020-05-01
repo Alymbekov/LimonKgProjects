@@ -12,6 +12,8 @@ urlpatterns = [
     path('', include('articles.urls')),
     # path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('pages/', include('pages.urls')),
+    path('tinymce/', include('tinymce.urls')),
+
 ]
 
 if settings.DEBUG:

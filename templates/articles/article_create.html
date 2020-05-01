@@ -1,4 +1,5 @@
 {% extends 'new_base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -18,5 +19,8 @@
         <button class="btn btn-success col-md-3 mb-100" type="submit"> Save  </button>
     </div>
 </form>
+
+<script  src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+<script  src="{% static 'js/tinymce/jquery.tinymce.min.js' %}"></script>
 
 {% endblock content %}
