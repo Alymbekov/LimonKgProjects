@@ -50,7 +50,7 @@
           {% if user.is_authenticated %}
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
-            <a class="dropdown-item" href="#">Перейти в Профиль</a>
+            <a class="dropdown-item" href="{% url 'profile' {{user.id}} %}">Перейти в Профиль</a>
             <a class="dropdown-item" href="{% url 'password_change' %}">Поменять пароль</a>
             <a class="dropdown-item" href="{% url 'password_reset' %}">Сбросить пароль</a>
             <a class="dropdown-item" href="{% url 'article_new' %}">Создать статью</a>

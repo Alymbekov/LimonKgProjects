@@ -1,0 +1,208 @@
+{% extends 'new_base.html' %}  
+{% load static %}  
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!-- Start banner Area -->
+<section class="banner-area relative">
+    <div class="overlay overlay-bg"></div>
+    <div class="container box_1170">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="about-content col-lg-12">
+                <h1 class="text-white">
+                    Blog Post Details
+                </h1>
+                <p class="text-white link-nav"><a href="index.html">Home </a> <span class="lnr lnr-arrow-right"></span>
+                    <a href="#"> Blog</a> <span class="lnr lnr-arrow-right"></span>
+                    <a href="blog-details.html"> Blog Details</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End banner Area -->
+
+<!-- Blog Area -->
+<section class="blog_area section-gap single-post-area">
+    <div class="container box_1170">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="main_blog_details">
+                    <img class="img-fluid" src="{{post.get_absolute_image_url}}" alt="">
+                    <h4>{{post.title}}</h4>
+                    <div class="user_details">
+                        <div class="float-left">
+                            {% if request.user.pk == post.author.pk %}
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'article_edit' object.pk %}"> Edit </a>
+                            <a href="{% url 'article_delete' object.pk %}"> Delete </a>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="float-right">
+                            <div class="media">
+                                <div class="media-body">
+                                    <h5>{{post.author.username}}</h5>
+                                    <p>{{post.date}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <img src="{{post.author.profiles.get_absolute_avatar_url}}" height="50" width="50" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="preview-content">
+                    <p>{{object.user.username|safe}}</p>
+                </div>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not
+                            understand
+                            why you should have to spend money on boot camp when you can get the MCSE study
+                            materials
+                            yourself at a fraction of the camp price. However, who has the willpower to actually
+                            sit
+                            through a self-imposed MCSE training.</p>
+                    </blockquote>
+                    <div class="news_d_footer">
+                        <a href="#"><i class="lnr lnr lnr-heart"></i>Lily and 4 people like this</a>
+                        <a class="justify-content-center ml-auto" href="#"><i class="lnr lnr lnr-bubble"></i>{{post.comments.count}} Comments</a>
+                        <div class="news_socail ml-auto">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="#"><i class="fa fa-rss"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                            <div class="thumb">
+                                <a href="#"><img class="img-fluid" src="{% static 'img/blog/prev.jpg' %}" alt=""></a>
+                            </div>
+                            <div class="arrow">
+                                <a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
+                            </div>
+                            <div class="detials">
+                                <p>Prev Post</p>
+                                <a href="#">
+                                    <h4>A Discount Toner</h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                            <div class="detials">
+                                <p>Next Post</p>
+                                <a href="#">
+                                    <h4>Cartridge Is Better</h4>
+                                </a>
+                            </div>
+                            <div class="arrow">
+                                <a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
+                            </div>
+                            <div class="thumb">
+                                <a href="#"><img class="img-fluid" src="{% static 'img/blog/next.jpg' %}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comments-area">
+                    <h4>{{post.comments.count}} Comments</h4>
+                    {% for post_comment in comments %}
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="{{post_comment.author.profiles.get_absolute_avatar_url}}" height="50"  width="50" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">{{post_comment.author}}</a></h5>
+                                    <p class="date"> {{post_comment.date}} </p>
+                                    <p class="comment">
+                                        {{post_comment.comment}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="reply-btn">
+                                <button type="button" name="button" class="btn-reply text-uppercase">reply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- reply block  -->
+                    {% for reply in post_comment.replies.all %}
+                   <div class="comment-list left-padding ">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="{% static 'img/blog/c2.jpg' %}" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">{{reply.author.username}}</a></h5>
+                                    <p class="date">{{reply.date}} </p>
+                                    <p class="comment">
+                                        {{ reply.comment }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- endreplyblock -->
+                
+                    {% endfor %}
+                        <!-- reply form -->
+                    <div class="comment-form left-padding" >
+                        <h4>Leave a Reply</h4>
+                        <form  method="POST">
+                                {% csrf_token %}
+                            <div class="form-group">
+                                
+                                    {{form|crispy}}
+                                    <input type="hidden" name="comment_id" value="{{post_comment.id}}">
+                            </div>
+                            <button class="primary-btn submit_btn text-uppercase" type="submit">Reply</button>
+                        </form>
+                    </div>
+                        <!-- endreply -->
+
+                    {% endfor %}
+                </div>
+                {% if user.is_authenticated %}
+                <div class="comment-form">
+                    <h4>Leave a Comment</h4>
+                    <form  method="POST">
+                            {% csrf_token %}
+                        <div class="form-group">
+                            <!-- <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege"
+                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea> -->
+                                {{form|crispy}}
+                        </div>
+                        <button class="primary-btn submit_btn text-uppercase" type="submit">Send Comment</button>
+                    </form>
+
+                </div>
+                {% else %}
+                <div class="comment-form">
+                    <h4>If you want add comment - <br>you must first login</h4>
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            <div class="col-lg-4 sidebar">
+                {% include 'includes/popular_article_author.html' %}
+
+                {% include 'includes/popular_and_latest.html' %}
+
+                {% include 'includes/post_categories.html' %}
+                
+                {% include 'includes/post_tags.html' %}
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Area -->
+
+
+
+{% endblock content %}

@@ -30,7 +30,7 @@
 						<li><a href="{% url 'contacts' %}">{% trans "Contact" %}</a></li>
 						{% if user.is_authenticated %}
 						  <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
-						  <li><a href="#">{% trans "Go to Profile" %}</a></li>
+						  <li><a href="{{user.get_absolute_url}}">{% trans "Go to Profile" %}</a></li>
 						  <li><a href="{% url 'password_change' %}">{% trans "Change Password" %}</a></li>
 						  <li><a href="{% url 'password_reset' %}">{% trans "Reset Password" %}</a></li>
 						  <li><a href="{% url 'article_new' %}">{% trans "Create Article" %}</a></li>

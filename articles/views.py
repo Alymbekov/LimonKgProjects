@@ -12,7 +12,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
 from django.utils.translation import gettext
-from .mixins import DispatchFuncMixin
+from limon_project.mixins import DispatchFuncMixin
 from django.db.models import Q
 
 
