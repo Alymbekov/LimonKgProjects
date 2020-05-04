@@ -1,4 +1,5 @@
-    {% load static %}
+	{% load static %}
+	{% load i18n  %}
     <!--================ Start header Top Area =================-->
 	<section class="header-top">
 		<div class="container box_1170">
@@ -24,19 +25,34 @@
 			<div class="row align-items-center justify-content-center d-flex">
 				<nav id="nav-menu-container">
 					<ul class="nav-menu">
-						<li class="menu-active"><a href="{% url 'article_list'  %}">Home</a></li>
-						<li><a href="{% url 'categories' %}">Category</a></li>
-						<li><a href="{% url 'contacts' %}">Contact</a></li>
+						<li class="menu-active"><a href="{% url 'article_list'  %}">{% trans "Home" %}</a></li>
+						<li><a href="{% url 'categories' %}">{% trans "Category" %}</a></li>
+						<li><a href="{% url 'contacts' %}">{% trans "Contact" %}</a></li>
 						{% if user.is_authenticated %}
-						  <li><a href="{% url 'logout' %}">Выйти</a></li>
-						  <li><a href="#">Перейти в Профиль</a></li>
-						  <li><a href="{% url 'password_change' %}">Поменять пароль</a></li>
-						  <li><a href="{% url 'password_reset' %}">Сбросить пароль</a></li>
-						  <li><a href="{% url 'article_new' %}">Создать статью</a></li>
+						  <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+						  <li><a href="#">{% trans "Go to Profile" %}</a></li>
+						  <li><a href="{% url 'password_change' %}">{% trans "Change Password" %}</a></li>
+						  <li><a href="{% url 'password_reset' %}">{% trans "Reset Password" %}</a></li>
+						  <li><a href="{% url 'article_new' %}">{% trans "Create Article" %}</a></li>
 						{% else %}
-						<li><a href="{% url 'login' %}">Войти</a></li>
-						<li><a href="{% url 'signup' %}">Зарегистрироваться</a></li>
+						<li><a href="{% url 'login' %}">{% trans "Sign in" %}</a></li>
+						<li><a href="{% url 'signup' %}">{% trans "Sign up" %}</a></li>
 						{% endif %}
+						<li>
+						<form action="{% url 'set_language' %}" method="post">
+							{% csrf_token %}
+							<input name="next" type="hidden" value="{{ redirect_to }}">
+							<select class="form-control" name="language"> {% get_current_language as LANGUAGE_CODE %} {% get_available_languages as LANGUAGES %} {% get_language_info_list for LANGUAGES as languages %}
+								{% for language in languages %}
+									<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+											selected{% endif %}> {{ language.name_local }} ({{ language.code }})
+									</option>
+								{% endfor %}
+							</select>
+							<input class="btn btn-primary" type="submit" value="{% trans 'Translate' %} "/>
+						</form>
+						</li>
+
 					</ul>
 				</nav>
 			</div>

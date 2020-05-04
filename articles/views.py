@@ -11,6 +11,7 @@ from django.views.generic import ListView, DetailView
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView, CreateView, FormView
+from django.utils.translation import gettext
 from .mixins import DispatchFuncMixin
 from django.db.models import Q
 
@@ -42,6 +43,17 @@ class ArticlePageView(ListView):
     template_name = 'index1.html'
     paginate_by = 3
     context_object_name = 'posts'
+
+    """
+    example code to change session key
+    """
+    # def dispatch(self, request, *args, **kwargs):
+    #     from django.utils import translation
+    #     user_language = 'ru'
+    #     translation.activate(user_language)
+    #     request.session[translation.LANGUAGE_SESSION_KEY] = user_language
+    #     return super().dispatch(request, *args, **kwargs)
+        
     def get_queryset(self):
         queryset = Article.objects.all()
         query_result = self.request.GET.get('search_title')
@@ -58,6 +70,14 @@ class ArticlePageView(ListView):
             )
         
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(*kwargs)
+        some_text = gettext('Hello World')
+        context['some_text'] = some_text
+        return context
+    
+
     
 
 
@@ -143,5 +163,5 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    
+
 

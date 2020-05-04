@@ -40,6 +40,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -106,15 +107,46 @@ LOGOUT_REDIRECT_URL = 'article_list'
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
+from django.conf import global_settings
+
+gettext_noop = lambda s: s
+
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ('en', 'English'), 
+    ('ru', 'Russian'),
+    ('kg', gettext_noop('Kyrgyz')),
+]
+
+EXTRA_LANG_INFO = {
+    'kg': {
+        'bidi': False,
+        'code': 'kg',
+        'name': 'Kygyz',
+        'name_local': u"K'yrgyz",
+
+    },
+}
+
+# Add custom languages not provided by Django
+import django.conf.locale
+LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
+django.conf.locale.LANG_INFO = LANG_INFO
+
+# Languages using BiDi (right-to-left) layout
+LANGUAGES_BIDI = global_settings.LANGUAGES_BIDI + ["kg"]
+
 
 TIME_ZONE = 'Asia/Bishkek'
-
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Static files (CSS, JavaScript, Images)

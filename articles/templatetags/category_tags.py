@@ -9,3 +9,5 @@ register = template.Library()
 def get_all_categories():
     return Category.objects.all()
 
+
+

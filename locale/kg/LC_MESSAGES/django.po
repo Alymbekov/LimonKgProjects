@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-04 19:10+0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: articles/views.py:76
+msgid "Hello World"
+msgstr ""
+
+#: limon_project/settings.py:118
+msgid "Kyrgyz"
+msgstr ""
+
+#: templates/includes/header.html:28
+msgid "Home"
+msgstr "Уй"
+
+#: templates/includes/header.html:29
+msgid "Category"
+msgstr "Бардык Тармактар"
+
+#: templates/includes/header.html:30
+msgid "Contact"
+msgstr ""
+
+#: templates/includes/header.html:32
+msgid "Logout"
+msgstr "Чык"
+
+#: templates/includes/header.html:33
+msgid "Go to Profile"
+msgstr "Профильге Кируу "
+
+#: templates/includes/header.html:34
+msgid "Change Password"
+msgstr "Сыйкыр коддту которуу"
+
+#: templates/includes/header.html:35
+msgid "Reset Password"
+msgstr ""
+
+#: templates/includes/header.html:36
+msgid "Create Article"
+msgstr ""
+
+#: templates/includes/header.html:38
+msgid "Sign in"
+msgstr ""
+
+#: templates/includes/header.html:39
+msgid "Sign up"
+msgstr ""
+
+#: templates/includes/header.html:52
+msgid "Которуу"
+msgstr ""
+
+#: templates/registration/password_reset_email.html:13
+msgid "Hi"
+msgstr "Кандай"
+
+#: templates/registration/password_reset_email.html:16
+msgid "We've received a request to reset your password."
+msgstr ""
