@@ -8,7 +8,7 @@ venv/
 __pycache__
 __pycache__/
 # Created by https://www.gitignore.io
-
+limon_project/.env
 ### OSX ###
 .DS_Store
 .AppleDouble
