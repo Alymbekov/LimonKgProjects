@@ -1,0 +1,8 @@
+[Unit]
+Description=gunicorn socket for limonkg project
+
+[Socket]
+ListenStream=/run/gunicorn/limonkg_socket
+
+[Install]
+WantedBy=sockets.target
