@@ -1,5 +1,5 @@
 # LimonKgProjects
-README file for {{ project_name }}
+README file for LimonKgProjects
 
 ###DEVELOPMENT
 
